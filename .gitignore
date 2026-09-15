@@ -1,0 +1,5 @@
+.idea
+.venv
+IMPLEMENTATION_PLAN.md
+.env
+__pycache__
