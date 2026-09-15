@@ -1,4 +1,8 @@
-FROM ubuntu:latest
-LABEL authors="Ruslan"
+FROM ghcr.io/astral-sh/uv:python3.14-trixie-slim
 
-ENTRYPOINT ["top", "-b"]
+WORKDIR /app
+
+COPY pyproject.toml uv.lock ./
+RUN uv sync --locked --no-dev
+
+COPY . /app
