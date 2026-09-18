@@ -58,3 +58,7 @@ class PostRead(SQLModel):
 
 class TaskResponse(SQLModel):
     id: UUID
+
+
+class GeneratePayload(SQLModel):
+    news_item_id: UUID
