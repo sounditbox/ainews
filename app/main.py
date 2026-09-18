@@ -3,11 +3,13 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from app.db import engine, init_db
+from app.log_config import configure_logs
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     try:
+        configure_logs()
         init_db()
         yield
     finally:
