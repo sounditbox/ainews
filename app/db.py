@@ -2,6 +2,7 @@ from typing import Generator
 
 from sqlmodel import create_engine, Session, SQLModel
 
+from app import models  # noqa: F401 -- register tables in SQLModel.metadata
 from app.config import get_settings
 
 engine = create_engine(get_settings().database_url)
