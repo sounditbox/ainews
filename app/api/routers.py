@@ -29,7 +29,7 @@ async def list_sources(session: SessionDep):
 
 @router.get("/sources/{source_id}", response_model=SourceRead,
             responses={404: {"description": "Not found"}})
-async def get_source(source_id: int, session: SessionDep):
+async def get_source(source_id: UUID, session: SessionDep):
     return s.get(session, source_id)
 
 
@@ -49,7 +49,7 @@ async def update_source(source_id: UUID, source: SourceUpdate,
 @router.delete("/sources/{source_id}", status_code=204,
                responses={404: {"description": "Not found"}}
                )
-async def delete_source(source_id: int, session: SessionDep):
+async def delete_source(source_id: UUID, session: SessionDep):
     s.delete(session, source_id)
 
 
