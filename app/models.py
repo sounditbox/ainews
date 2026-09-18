@@ -1,4 +1,3 @@
-
 from datetime import datetime
 from enum import StrEnum, auto
 import sqlalchemy as sa
@@ -61,6 +60,7 @@ class NewsItem(SQLModel, table=True):
     raw_text: str = Field(nullable=False)
 
     source: Source = Relationship(back_populates='news_items')
+    posts: list["Post"] = Relationship(back_populates='news_item')
 
 
 class Post(SQLModel, table=True):
@@ -73,3 +73,5 @@ class Post(SQLModel, table=True):
     generated_at: datetime | None = Field(default=None, nullable=True)
     published_at: datetime | None = Field(default=None, nullable=True)
     status: PostStatus = Field(default=PostStatus.NEW, nullable=False)
+
+    news_item: NewsItem = Relationship(back_populates='posts')

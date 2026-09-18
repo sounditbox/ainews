@@ -4,6 +4,7 @@ from fastapi import FastAPI
 
 from app.db import engine, init_db
 from app.log_config import configure_logs
+from .api.routers import router
 
 
 @asynccontextmanager
@@ -21,3 +22,4 @@ def create_app() -> FastAPI:
 
 
 app = create_app()
+app.include_router(router)
