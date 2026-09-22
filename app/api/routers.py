@@ -33,13 +33,13 @@ async def get_source(source_id: UUID, session: SessionDep):
     return s.get(session, source_id)
 
 
-@router.post("/sources", response_model=SourceWrite,
+@router.post("/sources", response_model=SourceRead,
              status_code=201, responses={400: {"description": "Invalid data"}})
 async def create_source(source: SourceWrite, session: SessionDep):
     return s.create(session, source)
 
 
-@router.patch("/sources/{source_id}", response_model=SourceUpdate,
+@router.patch("/sources/{source_id}", response_model=SourceRead,
               responses={404: {"description": "Not found"}})
 async def update_source(source_id: UUID, source: SourceUpdate,
                         session: SessionDep):
