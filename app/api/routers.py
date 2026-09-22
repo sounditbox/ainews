@@ -68,16 +68,16 @@ async def get_post(id: UUID, session: SessionDep):
     return p.get(session, id)
 
 
-@router.post("/parse", response_model=TaskResponse)
+@router.post("/parse", response_model=TaskResponse, status_code=202)
 async def parse_sources_endpoint(session: SessionDep):
     return t.parse(session)
 
 
-@router.post("/generate", response_model=TaskResponse)
+@router.post("/generate", response_model=TaskResponse, status_code=202)
 async def generate_post_enpoint(session: SessionDep, payload: GeneratePayload):
     return t.generate(session, payload)
 
 
-@router.post("/posts/{id}/publish", response_model=TaskResponse)
+@router.post("/posts/{id}/publish", response_model=TaskResponse, status_code=202)
 async def publish_post_endpoint(id: UUID, session: SessionDep):
     return t.publish(session, id)
