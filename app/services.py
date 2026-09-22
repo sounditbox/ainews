@@ -16,8 +16,10 @@ class SourceService:
 
     @staticmethod
     def get(session: Session, source_id: UUID) -> Source:
-        # possible not found
-        return session.exec(select(Source).where(Source.id == source_id)).one()
+        source = session.get(Source, source_id)
+        if source is None:
+            raise HTTPException(status_code=404, detail="Source not found")
+        return source
 
     @staticmethod
     def create(session: Session, source: SourceWrite) -> Source:
