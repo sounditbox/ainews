@@ -5,9 +5,8 @@ logger = logging.getLogger(__name__)
 
 
 @app.task
-def parse_sources(sources):
+def parse_sources():
     logger.info("Parsing sources...")
-    logger.info(f"Active sources: {sources}")
     pass
 
 
