@@ -31,8 +31,8 @@ class HabrParser(SiteParser):
             articles.append(
                 {
                     'title': title,
-                    'link': link,
-                    'description': description,
+                    'url': link,
+                    'raw_text': description,
                     'collected_at': datetime.now(),
                 }
             )
@@ -42,8 +42,3 @@ class HabrParser(SiteParser):
     def clean_html(self, raw_description):
         # TODO: implement html cleaning
         return raw_description
-
-
-if __name__ == '__main__':
-    parser = HabrParser()
-    asyncio.run(parser.parse(parser.parse_url))

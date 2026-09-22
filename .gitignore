@@ -3,3 +3,4 @@
 IMPLEMENTATION_PLAN.md
 .env
 __pycache__
+*.session
