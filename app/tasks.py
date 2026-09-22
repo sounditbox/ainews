@@ -20,3 +20,9 @@ def generate_post(news_id):
 def publish_post(post_id):
     logger.info(f"Publishing post {post_id}...")
     pass
+
+
+@app.task
+def publish_next_post():
+    logger.info("Publishing next ready post...")
+    pass
