@@ -1,8 +1,8 @@
 from uuid import UUID
 
 from fastapi import HTTPException
-from sqlmodel import Session, select, func, delete, update, insert, exists
-from app.api.schemas import SourceRead, SourceWrite, NewsItemRead, PostRead, \
+from sqlmodel import Session, select
+from app.api.schemas import SourceWrite, NewsItemRead, PostRead, \
     TaskResponse, GeneratePayload, SourceUpdate
 from app.models import Source, NewsItem, Post
 from app.tasks import parse_sources, generate_post, publish_post

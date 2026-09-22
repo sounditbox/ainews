@@ -2,7 +2,6 @@ from typing import Annotated
 from uuid import UUID
 
 from fastapi import APIRouter, Depends
-from sqlalchemy.orm import session
 from sqlmodel import Session
 
 from app.api.schemas import SourceRead, SourceWrite, SourceUpdate, NewsItemRead, \
