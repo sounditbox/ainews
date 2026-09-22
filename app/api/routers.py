@@ -47,7 +47,10 @@ async def update_source(source_id: UUID, source: SourceUpdate,
 
 
 @router.delete("/sources/{source_id}/", status_code=204,
-               responses={404: {"description": "Not found"}}
+               responses={
+                   404: {"description": "Not found"},
+                   409: {"description": "Source has news items"},
+               }
                )
 async def delete_source(source_id: UUID, session: SessionDep):
     s.delete(session, source_id)
