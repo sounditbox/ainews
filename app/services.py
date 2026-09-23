@@ -1,17 +1,21 @@
+import logging
 from uuid import UUID
 
 from fastapi import HTTPException
 from sqlmodel import Session, select
+
 from app.api.schemas import SourceWrite, NewsItemRead, PostRead, \
-    TaskResponse, GeneratePayload, SourceUpdate
+    SourceUpdate
 from app.models import Source, NewsItem, Post
-from app.tasks import parse_sources, generate_post, publish_post
+
+logger = logging.getLogger(__name__)
 
 
 class SourceService:
     @staticmethod
     def list(session: Session) -> list[Source]:
         # filter logic ??
+        # TODO: only enabled
         return session.exec(select(Source)).all()
 
     @staticmethod
@@ -24,6 +28,7 @@ class SourceService:
     @staticmethod
     def create(session: Session, source: SourceWrite) -> Source:
         # check url
+        # check if parser exists
         source = Source(**source.model_dump())
         session.add(source)
         session.commit()
@@ -64,6 +69,30 @@ class NewsService:
     def list(session: Session) -> list[NewsItemRead]:
         return session.exec(select(NewsItem)).all()
 
+    @staticmethod
+    def create(session: Session, article: dict) -> NewsItem:
+        if article.get('url'):
+            if session.exec(
+                select(NewsItem.id).where(NewsItem.url == article['url'])
+            ).first():
+                logger.warning(f"Duplicate article: {article['url']}")
+                return None
+        else:
+            channel_id = article['telegram_channel_id']
+            message_id = article['telegram_message_id']
+            if session.exec(
+                    select(NewsItem.id).where(
+                        NewsItem.telegram_channel_id == channel_id,
+                        NewsItem.telegram_message_id == message_id)
+            ).first():
+                logger.warning(f"Duplicate article: {article['url']}")
+                return None
+
+        news_item = NewsItem(**article)
+        session.add(news_item)
+        session.commit()
+        return news_item
+
 
 class PostService:
     @staticmethod
@@ -78,16 +107,3 @@ class PostService:
         return post
 
 
-class TaskService:
-    @staticmethod
-    def parse(session: Session) -> TaskResponse:
-        return TaskResponse(id=parse_sources.delay().id)
-
-    @staticmethod
-    def generate(session: Session, payload: GeneratePayload) -> TaskResponse:
-        return TaskResponse(
-            id=generate_post.delay(news_id=payload.news_item_id).id)
-
-    @staticmethod
-    def publish(session: Session, post_id: UUID) -> TaskResponse:
-        return TaskResponse(id=publish_post.delay(post_id).id)
