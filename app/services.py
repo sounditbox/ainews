@@ -14,9 +14,13 @@ logger = logging.getLogger(__name__)
 class SourceService:
     @staticmethod
     def list(session: Session) -> list[Source]:
-        # filter logic ??
-        # TODO: only enabled
         return session.exec(select(Source)).all()
+
+    @staticmethod
+    def list_enabled(session: Session) -> list[Source]:
+        return session.exec(
+            select(Source).where(Source.enabled.is_(True))
+        ).all()
 
     @staticmethod
     def get(session: Session, source_id: UUID) -> Source:

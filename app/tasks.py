@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 def parse_sources():
     logger.info("Parsing sources...")
     with open_session() as session:
-        sources: list[Source] = SourceService.list(session)
+        sources: list[Source] = SourceService.list_enabled(session)
         total_parsed = 0
         for source in sources:
             parser = get_parser(source.type, source.url)
