@@ -36,8 +36,13 @@ class TelegramParser(BaseParser):
 
     def parse_message(self, message) -> dict | None:
         text = message.text
+        stripped_text = (text or '').strip()
+        if not stripped_text:
+            return None
+
+        title = stripped_text.splitlines()[0].strip()[:200]
         return {
-            'title': text.splitlines()[0],
+            'title': title,
             'raw_text': text,
             'telegram_message_id': message.id,
             'telegram_channel_id': message.chat_id,
