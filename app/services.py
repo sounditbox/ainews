@@ -85,7 +85,10 @@ class NewsService:
                         NewsItem.telegram_channel_id == channel_id,
                         NewsItem.telegram_message_id == message_id)
             ).first():
-                logger.warning(f"Duplicate article: {article['url']}")
+                logger.warning(
+                    "Duplicate Telegram article: channel_id=%s, message_id=%s",
+                    channel_id, message_id,
+                )
                 return None
 
         news_item = NewsItem(**article)
