@@ -60,5 +60,13 @@ class TaskResponse(SQLModel):
     id: UUID
 
 
+class ParseResponse(SQLModel):
+    task_id: UUID
+
+
+class GenerateResponse(SQLModel):
+    post_id: UUID
+
+
 class GeneratePayload(SQLModel):
-    news_item_id: UUID
+    news_id: UUID
