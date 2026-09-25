@@ -91,8 +91,8 @@ def generate_post(raw_text: str, post_id: UUID) -> str | None:
         except Exception:
             post.status = PostStatus.GENERATION_FAILED
             session.add(post)
-            logger.exception("Failed to generate text for post %s",
-                             generate_post)
+            session.commit()
+            logger.exception(f"Failed to generate text for post {post_id}")
             return None
 
         return str(post.id)
